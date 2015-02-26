@@ -7,7 +7,7 @@ var PORT = 8880;
 var sockets = [];
 
 router.post('/', function(req, res, next) {
-    if (sockets) {
+    if (sockets.length > 0) {
         for(var i = 0; i < sockets.length; i++)
         {
             if(sockets[i])
