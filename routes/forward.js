@@ -13,7 +13,9 @@ router.post('/', function(req, res, next) {
             try {
                 sockets[i].write(JSON.stringify(req.body));
             } catch (err) {
-                console.log(err.message);
+                sockets.splice(i, 1);
+                if(sockets.length === 0)
+                    res.status(400).send('Socket not connected');
             }
         }
 
@@ -28,17 +30,6 @@ server.listen(PORT, HOST);
 server.on('connection', function(sock) {
     console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
     sockets.push(sock);
-});
-
-server.on('end', function(sock) {
-    console.log('CLOSE: ' + sock.remoteAddress +':'+ sock.remotePort);
-    for(var i = 0; i < sockets.length; i++)
-    {
-        if(sockets[i] == sock)
-        {
-            sockets[i].splice(i, 1);
-        }
-    }
 });
 
 module.exports = router;
