@@ -16,6 +16,7 @@ router.post('/', function(req, res, next) {
                 console.log(err.message);
             }
         }
+
         res.send(req.body);
     } else {
         res.status(400).send('Socket not connected');
